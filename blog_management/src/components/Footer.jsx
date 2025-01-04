@@ -1,8 +1,10 @@
 import React from "react";
 
-const Footer=()=>{
-    <>
-    <h1>Footer</h1>
-    </>
+const Footer = () => {
+    return (
+        <>
+            <h3>Footer</h3>
+        </>
+    )
 }
 export default Footer;
