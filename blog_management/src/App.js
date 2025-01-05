@@ -1,13 +1,29 @@
-import './App.css';
-import { Provider } from 'react-redux';
-import store from './components/redux/store';
+import React from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import AdminDashboard from './pages/Admin/AdminDashboard';
 import Login from './pages/Auth/Login';
-function App() {
+import BlogPost from './pages/User/BlogPost';
+
+// Define your routes configuration
+const router = createBrowserRouter([
+  {
+    path: "/admin-dashboard",
+    element: <AdminDashboard />,
+  },
+  {
+    path: "/",
+    element: <Login />,
+  },
+  {
+    path: "/blog",
+    element: <BlogPost />,
+  },
+]);
+
+const App = () => {
   return (
-    <Provider store={store}>
-   <Login/>
-  </Provider>
+    <RouterProvider router={router} />
   );
-}
+};
 
 export default App;

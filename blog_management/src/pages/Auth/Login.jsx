@@ -9,25 +9,20 @@ function Login() {
     const dispatch = useDispatch();
 
     const handleLogin = () => {
-        const email = 'admin@admin.com';  // Replace with actual email input
-        const password = 'admin';  // Replace with actual password input
+        const email = 'admin@admin.com'; 
+        const password = 'admin';
         
-        // Validate email and password
         if (email === 'admin@admin.com' && password === 'admin') {
-            // Admin credentials are correct
             const user = {
                 email,
                 role: 'admin',
             };
         
-            // Dispatch the login action for admin
             dispatch(login(user));
         
-            // Redirect to admin dashboard
             console.log("Admin logged in", user);
-            window.location.href = '/admin-dashboard';  // Redirect to the admin page
+            window.location.href = '/admin-dashboard'; 
         } else {
-            // User credentials are correct (but not admin)
             const user = {
                 email,
                 role: 'user',
