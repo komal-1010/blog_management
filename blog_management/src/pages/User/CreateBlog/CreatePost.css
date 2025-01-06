@@ -1,0 +1,63 @@
+.create-blog {
+    margin-left: 270px; /* To account for sidebar */
+    padding: 20px;
+    flex: 1;
+    max-width: 900px;
+    margin-top: 30px;
+  }
+  
+  .create-blog h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .create-blog form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .create-blog label {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  .create-blog input, .create-blog textarea {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .create-blog input:focus, .create-blog textarea:focus {
+    border-color: #3498db;
+    outline: none;
+  }
+  
+  .create-blog textarea {
+    min-height: 150px;
+    resize: vertical;
+  }
+  
+  .create-blog button {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .create-blog button:hover {
+    background-color: #2980b9;
+  }
+  
+  .create-blog button:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+  }
+  

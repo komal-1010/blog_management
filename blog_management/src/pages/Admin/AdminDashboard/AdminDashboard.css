@@ -1,0 +1,21 @@
+/* AdminDashboard.css */
+.dashboard-container {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .main-content {
+    margin-left: 250px; /* Offset for sidebar */
+    padding: 20px;
+    flex: 1;
+  }
+  
+  .main-content h1 {
+    font-size: 32px;
+  }
+  
+  .main-content p {
+    font-size: 18px;
+    margin-top: 20px;
+  }
+  

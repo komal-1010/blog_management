@@ -1,0 +1,31 @@
+/* BlogList.css */
+.blog-list {
+    margin-left: 270px;
+    padding: 20px;
+  }
+  
+  .blog-list ul {
+    list-style-type: none;
+  }
+  
+  .blog-list li {
+    margin: 10px 0;
+  }
+  
+  .blog-list li a {
+    text-decoration: none;
+    color: #3498db;
+  }
+  
+  .blog-list li button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+  }
+  
+  .blog-list li button:hover {
+    background-color: darkred;
+  }
+  
