@@ -1,37 +1,45 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import './BlogList.css';
+import React from 'react';
+import { Edit, Trash2, Plus } from 'lucide-react';
 
-const BlogList = () => {
-  const [blogs, setBlogs] = useState([]);
-
-  useEffect(() => {
-    axios.get("/api/blogs")
-      .then(response => setBlogs(response.data))
-      .catch(error => console.error("Error fetching blogs:", error));
-  }, []);
-
-  const deleteBlog = (id) => {
-    axios.delete(`/api/blogs/${id}`)
-      .then(() => setBlogs(blogs.filter(blog => blog._id !== id)))
-      .catch(error => console.error("Error deleting blog:", error));
-  };
-
+const BlogList = ( blogs, onEdit, onDelete, onAdd ) => {
   return (
-    <div className="blog-list">
-      <a href="/admin-dashboard"> Go TO Dashboard</a>
-      <h2>Manage Blogs</h2>
-      <ul>
+    <div className="manage-blogs">
+      <div className="section-header">
+        <h2>Manage Blogs</h2>
+        <button className="add-blog-button" onClick={onAdd}>
+          <Plus size={20} />
+          New Blog
+        </button>
+      </div>
+      <div className="blog-list">
         {blogs.map(blog => (
-          <li key={blog._id}>
-            <h3>{blog.title}</h3>
-            <p>{blog.content.substring(0, 100)}...</p>
-            <Link to={`/admin/blog/edit/${blog._id}`}>Edit</Link>
-            <button onClick={() => deleteBlog(blog._id)}>Delete</button>
-          </li>
+          <div key={blog.id} className="blog-item">
+            <div className="blog-info">
+              <h3>{blog.title}</h3>
+              <p className="blog-meta">
+                <span>By {blog.author}</span>
+                <span>•</span>
+                <span>{blog.date}</span>
+                <span className={`status ${blog.status}`}>{blog.status}</span>
+              </p>
+            </div>
+            <div className="blog-actions">
+              <button
+                className="icon-button edit"
+                onClick={() => onEdit(blog)}
+              >
+                <Edit size={18} />
+              </button>
+              <button
+                className="icon-button delete"
+                onClick={() => onDelete(blog.id)}
+              >
+                <Trash2 size={18} />
+              </button>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

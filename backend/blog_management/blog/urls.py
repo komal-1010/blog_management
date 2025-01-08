@@ -1,10 +1,9 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import BlogViewSet
-
-router = DefaultRouter()
-router.register(r'blogs', BlogViewSet)
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('create/', views.perform_create, name="create_blog"),
+    path('read/', views.get_queryset, name="read_blog"),
+    path('update/<int:pk>/', views.update_blog, name="update_blog"),
+    path('delete/<int:pk>/', views.delete_blog, name="delete_blog"),
 ]

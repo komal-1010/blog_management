@@ -2,9 +2,9 @@ import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import AdminDashboard from "./pages/Admin/AdminDashboard/AdminDashboard.jsx";
 import Login from "./pages/Auth/Login.jsx";
-import BlogPost from "./pages/User/BlogPost.jsx"
 import BlogList from "./pages/User/BlogList/BlogList.jsx"
-import CreateBlog from './pages/User/CreateBlog/CreatePost.jsx';
+import BlogEditor from './pages/User/BlogEditor.jsx';
+import BlogGrid from './pages/User/BlogGrid.jsx';
 // Define your routes configuration
 const router = createBrowserRouter([
   {
@@ -21,7 +21,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin/blog/create",
-    element: <CreateBlog />,
+    element: <BlogEditor />,
+  },
+  {
+    path: "/admin/blog/grid",
+    element: <BlogGrid />,
   },
 ]);
 
