@@ -1,13 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Bell, Search, ChevronDown, LogOut } from 'lucide-react';
+import "./Header.css"
 
-interface HeaderProps {
-  onLogout: () => void;
-  userRole: string;
-}
-
-const Header = ({ onLogout, userRole }: HeaderProps) => {
-  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = React.useState(false);
+const Header = ({ onLogout, userRole }) => {
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
   return (
     <header className="header">

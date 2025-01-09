@@ -1,38 +1,44 @@
 import React from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import AdminDashboard from "./pages/Admin/AdminDashboard/AdminDashboard.jsx";
-import Login from "./pages/Auth/Login.jsx";
-import BlogList from "./pages/User/BlogList/BlogList.jsx"
-import BlogEditor from './pages/User/BlogEditor.jsx';
-import BlogGrid from './pages/User/BlogGrid.jsx';
-// Define your routes configuration
+import Login from "./pages/Auth/Login";
+import BlogList from "./pages/User/BlogList/BlogList";
+import BlogDetail from './pages/User/BlogDetail/BlogDetail';
+
 const router = createBrowserRouter([
-  {
-    path: "/admin-dashboard",
-    element: <AdminDashboard />,
-  },
   {
     path: "/",
     element: <Login />,
   },
   {
-    path: "/admin/blogs",
-    element: <BlogList />,
+    path: "/admin-dashboard/*",
+    element: <AdminDashboard />,
+  },
+  {
+    path: "/blogs",
+    element: <BlogList  />,
   },
   {
     path: "/admin/blog/create",
-    element: <BlogEditor />,
+    element: <AdminDashboard />,
   },
   {
-    path: "/admin/blog/grid",
-    element: <BlogGrid />,
+    path: "/admin/blog/edit/:id",
+    element: <AdminDashboard />,
+  },
+  {
+    path: "/blog/:id",
+    element: <BlogDetail />,
+  },
+  // Redirect any unknown routes to the login page
+  {
+    path: "*",
+    element: <Navigate to="/" replace />,
   },
 ]);
 
 const App = () => {
-  return (
-    <RouterProvider router={router} />
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;

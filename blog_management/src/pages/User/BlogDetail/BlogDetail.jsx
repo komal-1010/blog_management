@@ -1,8 +1,6 @@
 import React from 'react';
 
-
-
-const BlogDetail = ( blog, onBack ) => {
+const BlogDetail = ({ blog, onBack }) => {
   return (
     <div className="blog-detail">
       <button className="back-button" onClick={onBack}>

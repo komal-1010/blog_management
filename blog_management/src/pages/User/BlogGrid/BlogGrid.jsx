@@ -1,6 +1,7 @@
 import React from 'react';
 
-const BlogGrid = (blogs, onReadMore) => {
+
+const BlogGrid = ({ blogs, onReadMore }) => {
   return (
     <div className="read-blogs">
       <h2>Published Blogs</h2>

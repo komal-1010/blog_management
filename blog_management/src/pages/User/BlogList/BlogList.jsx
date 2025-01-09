@@ -1,44 +1,48 @@
 import React from 'react';
-import { Edit, Trash2, Plus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import Header from '../../../components/Header/Header';
+import BlogGrid from '../BlogGrid/BlogGrid';
+import Sidebar from '../../../components/Sidebar/Sidebar';
 
-const BlogList = ( blogs, onEdit, onDelete, onAdd ) => {
+const BlogList = () => {
+  const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
+
+  const blogs = [
+    {
+      id: 1,
+      title: 'Getting Started with React',
+      content: 'React is a powerful library for building user interfaces...',
+      author: 'John Doe',
+      date: '2024-03-15'
+    },
+    {
+      id: 2,
+      title: 'Advanced TypeScript Patterns',
+      content: 'Learn about advanced TypeScript patterns and best practices...',
+      author: 'Jane Smith',
+      date: '2024-03-14'
+    }
+  ];
+
+  const handleReadMore = (id) => {
+    navigate(`/blog/${id}`);
+  };
+
   return (
-    <div className="manage-blogs">
-      <div className="section-header">
-        <h2>Manage Blogs</h2>
-        <button className="add-blog-button" onClick={onAdd}>
-          <Plus size={20} />
-          New Blog
-        </button>
-      </div>
-      <div className="blog-list">
-        {blogs.map(blog => (
-          <div key={blog.id} className="blog-item">
-            <div className="blog-info">
-              <h3>{blog.title}</h3>
-              <p className="blog-meta">
-                <span>By {blog.author}</span>
-                <span>•</span>
-                <span>{blog.date}</span>
-                <span className={`status ${blog.status}`}>{blog.status}</span>
-              </p>
-            </div>
-            <div className="blog-actions">
-              <button
-                className="icon-button edit"
-                onClick={() => onEdit(blog)}
-              >
-                <Edit size={18} />
-              </button>
-              <button
-                className="icon-button delete"
-                onClick={() => onDelete(blog.id)}
-              >
-                <Trash2 size={18} />
-              </button>
-            </div>
-          </div>
-        ))}
+    <div className="app-container">
+      <Sidebar
+        isOpen={isSidebarOpen}
+        onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
+        userRole="user"
+        activeMenu="blogs"
+        onMenuSelect={() => {}}
+      />
+      <div className="main-content">
+        <Header onLogout={() => navigate('/')} userRole="user" />
+        <main className="dashboard">
+          <BlogGrid blogs={blogs} onReadMore={handleReadMore} />
+        </main>
       </div>
     </div>
   );

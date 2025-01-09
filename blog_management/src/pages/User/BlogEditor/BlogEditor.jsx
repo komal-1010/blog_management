@@ -1,22 +1,14 @@
 import React, { useState } from 'react';
 
-interface BlogEditorProps {
-  onSave: (blog: { title: string; content: string; status: string }) => void;
-  initialBlog?: {
-    title: string;
-    content: string;
-    status: string;
-  };
-}
 
-const BlogEditor = ({ onSave, initialBlog }: BlogEditorProps) => {
+const BlogEditor = ({ onSave, initialBlog }) => {
   const [blog, setBlog] = useState(initialBlog || {
     title: '',
     content: '',
     status: 'draft'
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     onSave(blog);
   };

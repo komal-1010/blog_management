@@ -8,7 +8,7 @@ import {
   X,
   Menu
 } from 'lucide-react';
-
+import "./Sidebar.css"
 
 const Sidebar = (isOpen, onToggle, userRole, activeMenu, onMenuSelect ) => {
   const menuItems = userRole === 'admin' 
