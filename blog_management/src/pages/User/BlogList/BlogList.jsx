@@ -31,15 +31,15 @@ const BlogList = () => {
 
   return (
     <div className="app-container">
-      <Sidebar
+      {/* <Sidebar
         isOpen={isSidebarOpen}
         onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
         userRole="user"
         activeMenu="blogs"
         onMenuSelect={() => {}}
-      />
+      /> */}
       <div className="main-content">
-        <Header onLogout={() => navigate('/')} userRole="user" />
+        {/* <Header onLogout={() => navigate('/')} userRole="user" /> */}
         <main className="dashboard">
           <BlogGrid blogs={blogs} onReadMore={handleReadMore} />
         </main>

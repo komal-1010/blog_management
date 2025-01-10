@@ -10,7 +10,8 @@ import {
 } from 'lucide-react';
 import "./Sidebar.css"
 
-const Sidebar = (isOpen, onToggle, userRole, activeMenu, onMenuSelect ) => {
+const Sidebar = ({isOpen, onToggle, userRole, activeMenu, onMenuSelect} ) => {
+  console.log("userrole",userRole)
   const menuItems = userRole === 'admin' 
     ? [
         { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
