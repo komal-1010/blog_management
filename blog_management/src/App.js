@@ -4,6 +4,7 @@ import AdminDashboard from "./pages/Admin/AdminDashboard/AdminDashboard.jsx";
 import Login from "./pages/Auth/Login";
 import BlogList from "./pages/User/BlogList/BlogList";
 import BlogDetail from './pages/User/BlogDetail/BlogDetail';
+import BlogEditor from './pages/User/BlogEditor/BlogEditor.jsx';
 
 const router = createBrowserRouter([
   {
@@ -20,17 +21,16 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin/blog/create",
-    element: <AdminDashboard />,
+    element: <BlogEditor />,
   },
   {
     path: "/admin/blog/edit/:id",
-    element: <AdminDashboard />,
+    element: <BlogEditor />,
   },
   {
     path: "/blog/:id",
     element: <BlogDetail />,
   },
-  // Redirect any unknown routes to the login page
   {
     path: "*",
     element: <Navigate to="/" replace />,

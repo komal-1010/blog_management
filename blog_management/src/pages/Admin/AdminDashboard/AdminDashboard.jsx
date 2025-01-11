@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import Header from "../../../components/Header/Header.jsx";
 import Sidebar from "../../../components/Sidebar/Sidebar.jsx";
 import Dashboard from "../../../components/Dashboard/Dashboard.jsx";
-import BlogList from "../../User/BlogList/BlogList.jsx"
 import BlogEditor from '../../User/BlogEditor/BlogEditor.jsx';
 import "./AdminDashboard.css"
+import BlogList from '../BlogList/BlogList.jsx';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();

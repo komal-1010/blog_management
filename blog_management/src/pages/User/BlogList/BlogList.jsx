@@ -1,9 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../../components/Header/Header';
-import BlogGrid from '../BlogGrid/BlogGrid';
 import Sidebar from '../../../components/Sidebar/Sidebar';
-
+import BlogGrid from '../BlogGrid/BlogGrid.jsx'
 const BlogList = () => {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
@@ -31,15 +30,15 @@ const BlogList = () => {
 
   return (
     <div className="app-container">
-      {/* <Sidebar
+      <Sidebar
         isOpen={isSidebarOpen}
         onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
         userRole="user"
         activeMenu="blogs"
         onMenuSelect={() => {}}
-      /> */}
+      />
       <div className="main-content">
-        {/* <Header onLogout={() => navigate('/')} userRole="user" /> */}
+        <Header onLogout={() => navigate('/')} userRole="user" />
         <main className="dashboard">
           <BlogGrid blogs={blogs} onReadMore={handleReadMore} />
         </main>
