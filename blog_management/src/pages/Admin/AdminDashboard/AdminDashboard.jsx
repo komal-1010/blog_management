@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from "../../../components/Header/Header.jsx";
 import Sidebar from "../../../components/Sidebar/Sidebar.jsx";
@@ -6,38 +6,43 @@ import Dashboard from "../../../components/Dashboard/Dashboard.jsx";
 import BlogEditor from '../../User/BlogEditor/BlogEditor.jsx';
 import "./AdminDashboard.css"
 import BlogList from '../BlogList/BlogList.jsx';
+import axios from 'axios';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [activeMenu, setActiveMenu] = useState('dashboard');
-  const [blogs, setBlogs] = useState([
-    {
-      id: 1,
-      title: 'Getting Started with React',
-      content: 'React is a powerful library for building user interfaces...',
-      status: 'published',
-      date: '2024-03-15',
-      author: 'John Doe'
-    },
-    {
-      id: 2,
-      title: 'Advanced TypeScript Patterns',
-      content: 'Learn about advanced TypeScript patterns and best practices...',
-      status: 'draft',
-      date: '2024-03-14',
-      author: 'John Doe'
-    }
-  ]);
+  const [blogs, setBlogs] = useState([]);
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/read/`);
+        console.log("data", response.data);
+        setBlogs(response.data); // Save the data to state
+      } catch (error) {
+        console.error('Error fetching blog:', error);
+      }
+    };
 
+    fetchBlog();
+  }, []);
   const handleLogout = () => {
     // Implement logout logic
     navigate('/');
   };
 
-  const handleSaveBlog = (blog: { title: string; content: string; status: string }) => {
-    // Implement save blog logic
-    console.log('Saving blog:', blog);
+  const handleSaveBlog = async (blog) => {
+    try {
+      // Sending a POST request to create the blog
+      const response = await axios.post('http://localhost:8000/api/create/', blog);
+  
+      // Handle successful response (navigate to another page, show success message, etc.)
+      console.log('Blog saved successfully:', response.data);
+      navigate('/admin-dashboard'); // Navigate back to the list of blogs or another page
+    } catch (error) {
+      console.error('Error saving blog:', error);
+      // Handle error (show error message, etc.)
+    }
   };
 
   const handleEditBlog = (blog) => {
@@ -55,7 +60,7 @@ const AdminDashboard = () => {
       case 'dashboard':
         return <Dashboard blogs={blogs} />;
       case 'write':
-        return <BlogEditor onSave={handleSaveBlog} />;
+        return <BlogEditor onSave={handleSaveBlog} blog={blogs} setBlog={setBlogs} />;
       case 'manage':
         return (
           <BlogList
@@ -69,7 +74,6 @@ const AdminDashboard = () => {
         return <Dashboard blogs={blogs} />;
     }
   };
-console.log("isSidebarOpen",isSidebarOpen)
   return (
     <div className="app-container">
       <Sidebar

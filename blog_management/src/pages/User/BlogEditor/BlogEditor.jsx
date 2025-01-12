@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 
 
-const BlogEditor = ({ onSave, initialBlog }) => {
-  const [blog, setBlog] = useState(initialBlog || {
-    title: '',
-    content: '',
-    status: 'draft'
-  });
+const BlogEditor = ({ onSave, blog,setBlog }) => {
+  // const [blog, setBlog] = useState(initialBlog || {
+  //   title: '',
+  //   content: '',
+  //   status: 'draft'
+  // });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(blog);
+    console.log("blog",blog,e)
+    onSave({title:blog.title,content:blog.content,status:blog.status,author_name:blog.author_name});
   };
 
   return (
     <div className="write-blog">
-      <h2>{initialBlog ? 'Edit Blog' : 'Write New Blog'}</h2>
+      <h2>{blog ? 'Edit Blog' : 'Write New Blog'}</h2>
       <form className="blog-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Title</label>

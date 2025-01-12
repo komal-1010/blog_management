@@ -26,7 +26,10 @@ const BlogList = ({ blogs, onEdit, onDelete, onAdd }) => {
             <div className="blog-actions">
               <button
                 className="icon-button edit"
-                onClick={() => onEdit(blog)}
+                onClick={(e) => {
+                  console.log("e",e)
+                  onEdit(blog.id,blog)
+                }}
               >
                 <Edit size={18} />
               </button>
