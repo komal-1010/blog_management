@@ -4,6 +4,7 @@ from rest_framework import permissions
 from rest_framework import status
 from .models import Blog
 from .serializers import BlogSerializer
+from django.shortcuts import get_object_or_404
 
 # Function to create a blog
 @api_view(['POST'])
@@ -11,7 +12,6 @@ def perform_create(request):
     if request.method == 'POST':
         serializer = BlogSerializer(data=request.data)
         if serializer.is_valid():
-            # Set the author to the current authenticated user
             serializer.save(author=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -25,6 +25,16 @@ def get_queryset(request):
         blogs = Blog.objects.filter(status='published')  # Only published blogs for regular users
 
     serializer = BlogSerializer(blogs, many=True)
+    return Response(serializer.data)
+
+# Function to read a particular blog by id
+@api_view(['GET'])
+def get_blogById(request, pk):
+    # Fetch the blog by primary key (pk) or return 404 if not found
+    blog = get_object_or_404(Blog, pk=pk)
+
+    # Serialize the blog and return the response
+    serializer = BlogSerializer(blog)
     return Response(serializer.data)
 
 # Function to update a blog
