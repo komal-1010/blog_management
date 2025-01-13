@@ -1,29 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 
+const BlogEditor = ({ onSave, blog }) => {
+  const [editableBlog, setEditableBlog] = useState(blog || {}); // Initialize local state
 
-const BlogEditor = ({ onSave, blog,setBlog }) => {
-  // const [blog, setBlog] = useState(initialBlog || {
-  //   title: '',
-  //   content: '',
-  //   status: 'draft'
-  // });
+  useEffect(() => {
+    setEditableBlog(blog); // Update local state when the blog prop changes
+  }, [blog]);
+
+  const handleChange = (e) => {
+    setEditableBlog({ ...editableBlog, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("blog",blog,e)
-    onSave({title:blog.title,content:blog.content,status:blog.status,author_name:blog.author_name});
+    onSave(editableBlog); // Pass the updated blog to the parent component
   };
 
   return (
     <div className="write-blog">
-      <h2>{blog ? 'Edit Blog' : 'Write New Blog'}</h2>
+      <h2>{editableBlog ? "Edit Blog" : "Write New Blog"}</h2>
       <form className="blog-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Title</label>
           <input
             type="text"
-            value={blog.title}
-            onChange={(e) => setBlog({ ...blog, title: e.target.value })}
+            name="title"
+            value={editableBlog.title || ""}
+            onChange={handleChange}
             placeholder="Enter blog title"
             required
           />
@@ -31,8 +34,9 @@ const BlogEditor = ({ onSave, blog,setBlog }) => {
         <div className="form-group">
           <label>Content</label>
           <textarea
-            value={blog.content}
-            onChange={(e) => setBlog({ ...blog, content: e.target.value })}
+            name="content"
+            value={editableBlog.content || ""}
+            onChange={handleChange}
             placeholder="Write your blog content here..."
             rows={10}
             required
@@ -42,15 +46,11 @@ const BlogEditor = ({ onSave, blog,setBlog }) => {
           <button
             type="button"
             className="secondary-button"
-            onClick={() => setBlog({ ...blog, status: 'draft' })}
+            onClick={() => setEditableBlog({ ...editableBlog, status: "draft" })}
           >
             Save as Draft
           </button>
-          <button
-            type="submit"
-            className="primary-button"
-            onClick={() => setBlog({ ...blog, status: 'published' })}
-          >
+          <button type="submit" className="primary-button">
             Publish
           </button>
         </div>
