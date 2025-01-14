@@ -30,7 +30,6 @@ const AdminDashboard = () => {
     // Implement logout logic
     navigate('/');
   };
-
   const handleSaveBlog = async (blog) => {
     try {
       // Sending a POST request to create the blog
@@ -47,7 +46,7 @@ const AdminDashboard = () => {
 
   const handleEditBlog = (blog) => {
     // Navigate to edit page with blog data
-    navigate(`/admin/blog/edit/${blog.id}`, { state: { blog } });
+    navigate(`/admin/blog/edit/${blog}`);
   };
 
   const handleDeleteBlog = (id) => {
@@ -60,7 +59,7 @@ const AdminDashboard = () => {
       case 'dashboard':
         return <Dashboard blogs={blogs} />;
       case 'write':
-        return <BlogEditor onSave={handleSaveBlog} blog={blogs} setBlog={setBlogs} />;
+        return <BlogEditor onSave={handleSaveBlog} blog={blogs}/>;
       case 'manage':
         return (
           <BlogList

@@ -5,15 +5,11 @@ import BlogEditor from "../../User/BlogEditor/BlogEditor";
 import { useParams } from "react-router-dom";
 
 const BlogList = ({ blogs, onEdit, onDelete, onAdd, onSave }) => {
-  const [editBlog, setEditBlog] = useState(null); // Blog to be edited
-  const handleEdit = (blog) => {
-    onEdit(blog); // Set the blog to edit
-  };
+  const [editBlog, setEditBlog] = useState([]); // Blog to be edited
 
   const handleDelete = (id) => {
     onDelete(id);
   };
-
   const handleSave = (updatedBlog) => {
     onSave(updatedBlog); // Save the updated blog
     setEditBlog(null); // Close editor after saving
@@ -44,6 +40,12 @@ const BlogList = ({ blogs, onEdit, onDelete, onAdd, onSave }) => {
               <button
                 className="icon-button edit"
                 onClick={(e) => {
+                  const selectedBlog = blogs.find((item) => item.id === blog.id);
+                  if (selectedBlog) {
+                    setEditBlog(selectedBlog);
+                  } else {
+                    console.error("Blog not found for ID:", blog.id);
+                  }
                   onEdit(blog.id);
                 }}
               >
@@ -59,12 +61,7 @@ const BlogList = ({ blogs, onEdit, onDelete, onAdd, onSave }) => {
           </div>
         ))}
       </div>
-      {editBlog && (
-        <BlogEditor
-          onSave={handleEdit} // Save the blog when editing is done
-          blog={editBlog} // Pass the selected blog to the editor
-        />
-      )}
+      {console.log("editblog", editBlog)}
     </div>
   );
 };

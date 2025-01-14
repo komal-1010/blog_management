@@ -11,9 +11,7 @@ const root = ReactDOM.createRoot(rootElement);
 
 // Render your App wrapped in the Provider component
 root.render(
-  <Provider store={store}>
     <App />
-  </Provider>
 );
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

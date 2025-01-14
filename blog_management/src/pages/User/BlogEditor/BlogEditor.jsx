@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const BlogEditor = ({ onSave, blog }) => {
-  const [editableBlog, setEditableBlog] = useState(blog || {}); // Initialize local state
-
-  useEffect(() => {
-    setEditableBlog(blog); // Update local state when the blog prop changes
-  }, [blog]);
-
+  const [editableBlog, setEditableBlog] = useState(blog.filter((item)=>item.id==id) || {}); // Initialize local state
+  
+  const { id } = useParams(); // Extract the ID from the URL
+  console.log("blog id",id,editableBlog) 
   const handleChange = (e) => {
     setEditableBlog({ ...editableBlog, [e.target.name]: e.target.value });
   };
@@ -18,7 +17,7 @@ const BlogEditor = ({ onSave, blog }) => {
 
   return (
     <div className="write-blog">
-      <h2>{editableBlog ? "Edit Blog" : "Write New Blog"}</h2>
+      <h2>{editableBlog.length>0 ? "Edit Blog" : "Write New Blog"}</h2>
       <form className="blog-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Title</label>

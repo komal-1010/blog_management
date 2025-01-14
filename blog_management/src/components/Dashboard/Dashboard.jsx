@@ -1,10 +1,10 @@
 import React from 'react';
 import "./Dashboard.css"
-const Dashboard = ( blogs ) => {
-  const publishedCount = 2
-  // blogs.filter(b => b.status === 'published').length;
-  const draftCount =2
-  //  blogs.filter(b => b.status === 'draft').length;
+const Dashboard = ( {blogs} ) => {
+  const publishedCount = 
+  blogs.filter(b => b.status === 'published').length;
+  const draftCount =
+   blogs.filter(b => b.status === 'draft').length;
 
   return (
     <div className="dashboard-stats">
