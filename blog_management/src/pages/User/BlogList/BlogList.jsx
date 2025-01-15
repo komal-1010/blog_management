@@ -12,7 +12,7 @@ const BlogList = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/read/`);
+        const response = await axios.get(`http://localhost:8001/api/read/`);
         console.log("data", response.data);
         setBlogs(response.data); // Save the data to state
       } catch (error) {

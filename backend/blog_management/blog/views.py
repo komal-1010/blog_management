@@ -30,8 +30,12 @@ def get_queryset(request):
 # Function to read a particular blog by id
 @api_view(['GET'])
 def get_blogById(request, pk):
-    # Fetch the blog by primary key (pk) or return 404 if not found
     blog = get_object_or_404(Blog, pk=pk)
+    
+    # Optional: Ensure that the blog is published for non-admin users
+    if not request.user.is_staff and blog.status != 'published':
+        return Response({'detail': 'You do not have permission to view this blog.'}, 
+                        status=status.HTTP_403_FORBIDDEN)
 
     # Serialize the blog and return the response
     serializer = BlogSerializer(blog)
@@ -43,11 +47,12 @@ def update_blog(request, pk):
     try:
         blog = Blog.objects.get(pk=pk)
     except Blog.DoesNotExist:
-        return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'detail': 'Blog not found.'}, status=status.HTTP_404_NOT_FOUND)
 
     # Check if the user is the author or is an admin
     if request.user != blog.author and not request.user.is_staff:
-        return Response({'detail': 'Permission denied.'}, status=status.HTTP_403_FORBIDDEN)
+        return Response({'detail': 'Permission denied. You can only edit your own blogs.'}, 
+                        status=status.HTTP_403_FORBIDDEN)
 
     serializer = BlogSerializer(blog, data=request.data)
     if serializer.is_valid():
@@ -61,11 +66,12 @@ def delete_blog(request, pk):
     try:
         blog = Blog.objects.get(pk=pk)
     except Blog.DoesNotExist:
-        return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'detail': 'Blog not found.'}, status=status.HTTP_404_NOT_FOUND)
 
     # Check if the user is the author or is an admin
     if request.user != blog.author and not request.user.is_staff:
-        return Response({'detail': 'Permission denied.'}, status=status.HTTP_403_FORBIDDEN)
+        return Response({'detail': 'Permission denied. You can only delete your own blogs.'}, 
+                        status=status.HTTP_403_FORBIDDEN)
 
     blog.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
