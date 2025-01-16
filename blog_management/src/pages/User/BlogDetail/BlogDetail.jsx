@@ -10,7 +10,7 @@ const BlogDetail = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await axios.get(`http://localhost:8001/api/get/${id}/`);
+        const response = await axios.get(`http://localhost:8000/api/get/${id}/`);
         console.log("data", response.data);
         setBlog(response.data); // Save the data to state
       } catch (error) {

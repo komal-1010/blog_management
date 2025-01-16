@@ -69,6 +69,7 @@ def delete_blog(request, pk):
         return Response({'detail': 'Blog not found.'}, status=status.HTTP_404_NOT_FOUND)
 
     # Check if the user is the author or is an admin
+    print("response",request.user,blog.author)
     if request.user != blog.author and not request.user.is_staff:
         return Response({'detail': 'Permission denied. You can only delete your own blogs.'}, 
                         status=status.HTTP_403_FORBIDDEN)

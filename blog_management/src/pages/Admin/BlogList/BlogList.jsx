@@ -3,12 +3,30 @@ import { Edit, Trash2, Plus } from "lucide-react";
 import "../BlogList/BlogList.css";
 import BlogEditor from "../../User/BlogEditor/BlogEditor";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const BlogList = ({ blogs, onEdit, onDelete, onAdd, onSave }) => {
   const [editBlog, setEditBlog] = useState([]); // Blog to be edited
 
-  const handleDelete = (id) => {
-    onDelete(id);
+  const handleDelete = async (id) => {
+    try {
+      // Confirm before deletion
+      const confirmDelete = window.confirm("Are you sure you want to delete this blog?");
+      if (!confirmDelete) return;
+  
+      // Call the delete API
+      const response = await axios.delete(`http://localhost:8000/api/delete/${id}/`);
+      console.log("Delete successful:", response.data);
+  
+      // Callback to update the UI after deletion
+      onDelete(id);
+  
+      // Optional: show success message
+      alert("Blog deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting blog:", error);
+      alert("An error occurred while trying to delete the blog. Please try again.");
+    }
   };
   const handleSave = (updatedBlog) => {
     onSave(updatedBlog); // Save the updated blog
@@ -61,7 +79,6 @@ const BlogList = ({ blogs, onEdit, onDelete, onAdd, onSave }) => {
           </div>
         ))}
       </div>
-      {console.log("editblog", editBlog)}
     </div>
   );
 };

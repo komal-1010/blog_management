@@ -14,7 +14,7 @@ const BlogEditor = () => {
     const fetchBlog = async () => {
       try {
         if (id) {
-          const response = await axios.get(`http://localhost:8001/api/get/${id}/`);
+          const response = await axios.get(`http://localhost:8000/api/get/${id}/`);
           setEditableBlog(response.data); // Set the fetched blog data
         } else {
           setEditableBlog({}); // Initialize as empty for "Create" mode
@@ -37,12 +37,11 @@ const BlogEditor = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const url = id
-      ? `http://localhost:8001/api/update/${id}/` // Edit existing blog
-      : `http://localhost:8001/api/create/`; // Create new blog
 
     try {
-      const response = await axios.put(url, editableBlog);
+      const response = id
+      ? await axios.put(`http://localhost:8000/api/update/${id}/`, editableBlog) // Update if `id` exists
+      : await axios.post(`http://localhost:8000/api/create/`, editableBlog); 
       setSuccessMessage(id ? "Blog updated successfully!" : "Blog created successfully!");
       setError(null); // Clear previous errors
 
@@ -59,6 +58,21 @@ const BlogEditor = () => {
     return <div>Loading...</div>; // Show loading indicator while fetching
   }
 
+  const saveAsDraft = async () => {
+    const url = id
+      ? `http://localhost:8000/api/update/${id}/` // Update existing blog as draft
+      : `http://localhost:8000/api/create/`; // Create new blog as draft
+
+    try {
+      const response = await axios.post(url, { ...editableBlog, status: "draft" });
+      setSuccessMessage("Blog saved as draft successfully!");
+      setError(null); // Clear previous errors
+    } catch (error) {
+      console.error("Error saving blog as draft:", error);
+      setError("An error occurred while saving the blog as a draft. Please try again.");
+      setSuccessMessage(""); // Clear previous success message
+    }
+  };
   return (
     <div className="write-blog">
       <h2>{id ? "Edit Blog" : "Write New Blog"}</h2>
@@ -93,7 +107,7 @@ const BlogEditor = () => {
           <button
             type="button"
             className="secondary-button"
-            onClick={() => setEditableBlog({ ...editableBlog, status: "draft" })}
+            onClick={saveAsDraft}
           >
             Save as Draft
           </button>

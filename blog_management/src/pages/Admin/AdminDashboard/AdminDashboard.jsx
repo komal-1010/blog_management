@@ -16,7 +16,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await axios.get(`http://localhost:8001/api/read/`);
+        const response = await axios.get(`http://localhost:8000/api/read/`);
         console.log("data", response.data);
         setBlogs(response.data); // Save the data to state
       } catch (error) {
@@ -33,7 +33,7 @@ const AdminDashboard = () => {
   const handleSaveBlog = async (blog) => {
     try {
       // Sending a POST request to create the blog
-      const response = await axios.post('http://localhost:8001/api/create/', blog);
+      const response = await axios.post('http://localhost:8000/api/create/', blog);
   
       // Handle successful response (navigate to another page, show success message, etc.)
       console.log('Blog saved successfully:', response.data);
