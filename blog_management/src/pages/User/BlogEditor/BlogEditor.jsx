@@ -55,23 +55,26 @@ const BlogEditor = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading indicator while fetching
+    return <div>Loading...</div>;
   }
 
   const saveAsDraft = async () => {
-    const url = id
-      ? `http://localhost:8000/api/update/${id}/` // Update existing blog as draft
-      : `http://localhost:8000/api/create/`; // Create new blog as draft
-
-    try {
-      const response = await axios.post(url, { ...editableBlog, status: "draft" });
-      setSuccessMessage("Blog saved as draft successfully!");
-      setError(null); // Clear previous errors
-    } catch (error) {
-      console.error("Error saving blog as draft:", error);
-      setError("An error occurred while saving the blog as a draft. Please try again.");
-      setSuccessMessage(""); // Clear previous success message
-    }
+    const url = id 
+    ? `http://localhost:8000/api/update/${id}/`
+    : `http://localhost:8000/api/create/`;
+  
+  try {
+    const method = id ? 'put' : 'post'; 
+    const response = await axios({
+      method,
+      url,   
+      data: { ...editableBlog, status: "draft" },
+    });
+    console.log(response.data); // Handle response here
+  } catch (error) {
+    console.error("Error:", error); // Handle errors here
+  }
+  
   };
   return (
     <div className="write-blog">
