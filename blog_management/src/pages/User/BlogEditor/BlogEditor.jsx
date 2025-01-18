@@ -70,7 +70,6 @@ const BlogEditor = () => {
       url,   
       data: { ...editableBlog, status: "draft" },
     });
-    console.log(response.data); // Handle response here
   } catch (error) {
     console.error("Error:", error); // Handle errors here
   }
