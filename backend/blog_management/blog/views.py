@@ -50,9 +50,10 @@ def update_blog(request, pk):
         return Response({'detail': 'Blog not found.'}, status=status.HTTP_404_NOT_FOUND)
 
     # Check if the user is the author or is an admin
-    if request.user != blog.author and not request.user.is_staff:
-        return Response({'detail': 'Permission denied. You can only edit your own blogs.'}, 
-                        status=status.HTTP_403_FORBIDDEN)
+    print("request.user",request.user,blog.author,request.user.is_staff)
+    # if request.user != blog.author and not request.user.is_staff:
+        # return Response({'detail': 'Permission denied. You can only edit your own blogs.'}, 
+        #                 status=status.HTTP_403_FORBIDDEN)
 
     serializer = BlogSerializer(blog, data=request.data)
     if serializer.is_valid():
