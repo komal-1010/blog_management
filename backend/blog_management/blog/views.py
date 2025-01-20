@@ -9,12 +9,11 @@ from django.shortcuts import get_object_or_404
 # Function to create a blog
 @api_view(['POST'])
 def perform_create(request):
-    if request.method == 'POST':
-        serializer = BlogSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(author=request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializer = BlogSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(author=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Function to read blogs
 @api_view(['GET'])
@@ -31,7 +30,7 @@ def get_queryset(request):
 @api_view(['GET'])
 def get_blogById(request, pk):
     blog = get_object_or_404(Blog, pk=pk)
-    
+
     # Optional: Ensure that the blog is published for non-admin users
     if not request.user.is_staff and blog.status != 'published':
         return Response({'detail': 'You do not have permission to view this blog.'}, 
@@ -44,16 +43,12 @@ def get_blogById(request, pk):
 # Function to update a blog
 @api_view(['PUT'])
 def update_blog(request, pk):
-    try:
-        blog = Blog.objects.get(pk=pk)
-    except Blog.DoesNotExist:
-        return Response({'detail': 'Blog not found.'}, status=status.HTTP_404_NOT_FOUND)
+    blog = get_object_or_404(Blog, pk=pk)
 
     # Check if the user is the author or is an admin
-    print("request.user",request.user,blog.author,request.user.is_staff)
-    # if request.user != blog.author and not request.user.is_staff:
-        # return Response({'detail': 'Permission denied. You can only edit your own blogs.'}, 
-        #                 status=status.HTTP_403_FORBIDDEN)
+    if request.user != blog.author and not request.user.is_staff:
+        return Response({'detail': 'Permission denied. You can only edit your own blogs.'}, 
+                        status=status.HTTP_403_FORBIDDEN)
 
     serializer = BlogSerializer(blog, data=request.data)
     if serializer.is_valid():
@@ -64,13 +59,9 @@ def update_blog(request, pk):
 # Function to delete a blog
 @api_view(['DELETE'])
 def delete_blog(request, pk):
-    try:
-        blog = Blog.objects.get(pk=pk)
-    except Blog.DoesNotExist:
-        return Response({'detail': 'Blog not found.'}, status=status.HTTP_404_NOT_FOUND)
+    blog = get_object_or_404(Blog, pk=pk)
 
     # Check if the user is the author or is an admin
-    print("response",request.user,blog.author)
     if request.user != blog.author and not request.user.is_staff:
         return Response({'detail': 'Permission denied. You can only delete your own blogs.'}, 
                         status=status.HTTP_403_FORBIDDEN)
