@@ -8,15 +8,6 @@ const Header = ({ onLogout, userRole }) => {
   return (
     <header className="header">
       <div className="header-content">
-        <div className="search-container">
-          <input
-            type="text"
-            placeholder="Search blogs..."
-            className="search-input"
-          />
-          <Search className="search-icon" size={20} />
-        </div>
-
         <div className="header-actions">
           <button className="notification-button">
             <Bell size={20} />
@@ -28,11 +19,6 @@ const Header = ({ onLogout, userRole }) => {
               className="profile-button"
               onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
             >
-              <img
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                alt="Profile"
-                className="profile-image"
-              />
               <div className="profile-info">
                 <p className="profile-name">John Doe</p>
                 <p className="profile-role">
