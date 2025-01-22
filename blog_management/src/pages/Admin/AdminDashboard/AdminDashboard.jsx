@@ -14,18 +14,32 @@ const AdminDashboard = () => {
   const [activeMenu, setActiveMenu] = useState('dashboard');
   const [blogs, setBlogs] = useState([]);
   useEffect(() => {
-    const fetchBlog = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8000/api/read/`);
-        console.log("data", response.data);
-        setBlogs(response.data); // Save the data to state
-      } catch (error) {
-        console.error('Error fetching blog:', error);
-      }
-    };
-
-    fetchBlog();
+    fetchBlogs();
   }, []);
+  const fetchBlogs = async () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const role = user ? user.role : "user";
+    console.log("role",role)
+    try {
+      const baseUrl = "http://localhost:8000/api"; 
+      const response = await fetch(`${baseUrl}/read/`, {
+        method: "GET",
+        headers: {
+          "X-User-Role": role,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch blogs");
+      }
+
+      const data = await response.json();
+      setBlogs(data)
+    } catch (error) {
+      console.error("Error fetching blogs:", error);
+    }
+  };
+
   const handleLogout = () => {
     // Implement logout logic
     navigate('/');

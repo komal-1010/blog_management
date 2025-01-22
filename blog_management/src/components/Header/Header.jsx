@@ -4,6 +4,7 @@ import "./Header.css"
 
 const Header = ({ onLogout, userRole }) => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const user = JSON.parse(localStorage.getItem('user'));
 
   return (
     <header className="header">
@@ -20,7 +21,7 @@ const Header = ({ onLogout, userRole }) => {
               onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
             >
               <div className="profile-info">
-                <p className="profile-name">John Doe</p>
+                <p className="profile-name">{user?.email}</p>
                 <p className="profile-role">
                   {userRole === 'admin' ? 'Administrator' : 'User'}
                 </p>

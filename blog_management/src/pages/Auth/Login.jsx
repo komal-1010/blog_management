@@ -7,8 +7,10 @@ const Login = () => {
 
   const handleLogin = (email, password) => {
     if (email.includes('admin') &&password==='admin') {
+      localStorage.setItem('user', JSON.stringify({ email, role: 'admin' }));
       navigate('/admin-dashboard');
     } else {
+      localStorage.setItem('user', JSON.stringify({ email, role: 'user' }));
       navigate('/blogs');
     }
   };
