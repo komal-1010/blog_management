@@ -18,10 +18,12 @@ def perform_create(request):
 # Function to read blogs
 @api_view(['GET'])
 def get_queryset(request):
-    if request.user.is_staff:
-        blogs = Blog.objects.all()  # Admin can view all blogs
+    user_role = request.headers.get('X-User-Role') 
+    print("user_role",user_role)
+    if user_role == 'admin':
+        blogs = Blog.objects.all() 
     else:
-        blogs = Blog.objects.filter(status='published')  # Only published blogs for regular users
+        blogs = Blog.objects.filter(status='published')  
 
     serializer = BlogSerializer(blogs, many=True)
     return Response(serializer.data)

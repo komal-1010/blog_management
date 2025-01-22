@@ -30,6 +30,11 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',  # your React frontend's URL
 ]
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'X-User-Role',  # Add your custom headers here
+    'Authorization',
+]
 
 
 # Application definition
