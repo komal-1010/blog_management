@@ -4,7 +4,7 @@ import "./Header.css"
 
 const Header = ({ onLogout, userRole }) => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(sessionStorage.getItem('user'));
 
   return (
     <header className="header">

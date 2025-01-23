@@ -6,6 +6,16 @@ import BlogList from "./pages/User/BlogList/BlogList";
 import BlogDetail from './pages/User/BlogDetail/BlogDetail';
 import BlogEditor from './pages/User/BlogEditor/BlogEditor.jsx';
 
+const isAuthenticated = () => {
+  return sessionStorage.getItem('user') !== null; 
+};
+
+// Protected route wrapper component
+const ProtectedRoute = ({ element }) => {
+  return isAuthenticated() ? element : <Navigate to="/" replace />;
+};
+
+// Define the router
 const router = createBrowserRouter([
   {
     path: "/",
@@ -13,19 +23,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin-dashboard/*",
-    element: <AdminDashboard />,
+    element: <ProtectedRoute element={<AdminDashboard />} />,
   },
   {
     path: "/blogs",
-    element: <BlogList  />,
+    element: <BlogList />,
   },
   {
     path: "/admin/blog/create",
-    element: <BlogEditor />,
+    element: <ProtectedRoute element={<BlogEditor />} />,
   },
   {
     path: "/admin/blog/edit/:id",
-    element: <BlogEditor />,
+    element: <ProtectedRoute element={<BlogEditor />} />,
   },
   {
     path: "/blog/:id",
@@ -37,6 +47,7 @@ const router = createBrowserRouter([
   },
 ]);
 
+// App component that uses RouterProvider
 const App = () => {
   return <RouterProvider router={router} />;
 };

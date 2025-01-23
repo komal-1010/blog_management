@@ -17,7 +17,7 @@ const AdminDashboard = () => {
     fetchBlogs();
   }, []);
   const fetchBlogs = async () => {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = JSON.parse(sessionStorage.getItem("user"));
     const role = user ? user.role : "user";
     console.log("role",role)
     try {
@@ -41,7 +41,7 @@ const AdminDashboard = () => {
   };
 
   const handleLogout = () => {
-    // Implement logout logic
+   sessionStorage.clear();
     navigate('/');
   };
   const handleSaveBlog = async (blog) => {
