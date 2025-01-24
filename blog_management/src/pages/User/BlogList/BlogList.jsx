@@ -4,6 +4,8 @@ import Header from '../../../components/Header/Header';
 import Sidebar from '../../../components/Sidebar/Sidebar';
 import BlogGrid from '../BlogGrid/BlogGrid.jsx'
 import axios from 'axios';
+import './BlogList.css';
+
 const BlogList = () => {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
