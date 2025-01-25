@@ -31,16 +31,21 @@ def get_queryset(request):
 # Function to read a particular blog by id
 @api_view(['GET'])
 def get_blogById(request, pk):
-    blog = get_object_or_404(Blog, pk=pk)
+    try:
+        blog = get_object_or_404(Blog, pk=pk)
+    except Blog.DoesNotExist:
+        return Response({'detail': 'Blog not found.'}, status=status.HTTP_404_NOT_FOUND)
 
-    # Optional: Ensure that the blog is published for non-admin users
-    if not request.user.is_staff and blog.status != 'published':
-        return Response({'detail': 'You do not have permission to view this blog.'}, 
+    user_role = request.headers.get('X-User-Role', '').lower()
+    print("user role",user_role)
+    if user_role != 'admin':
+        return Response({'detail': 'You do not have permission to view this blog.'},
                         status=status.HTTP_403_FORBIDDEN)
 
-    # Serialize the blog and return the response
     serializer = BlogSerializer(blog)
+    print("serializer.data",serializer.data)
     return Response(serializer.data)
+
 
 # Function to update a blog
 @api_view(['PUT'])
