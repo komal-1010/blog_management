@@ -70,11 +70,10 @@ const BlogList = ({ blogs, onEdit, onDelete, onAdd, onSave }) => {
         {filteredBlogs.map((blog) => (
           <div key={blog.id} className="blog-item">
             <div className="blog-info">
+              <h2>{blog.id}</h2>
               <h3>{blog.title}</h3>
               <p className="blog-meta">
-                <span>By {blog.author}</span>
-                <span>•</span>
-                <span>{blog.date}</span>
+                <span>{blog.updated_at}</span>
                 <span className={`status ${blog.status}`}>{blog.status}</span>
               </p>
             </div>

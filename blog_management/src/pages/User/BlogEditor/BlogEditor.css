@@ -3,7 +3,12 @@
 .read-blogs {
   padding: 2rem;
 }
-
+.error-message{
+  color: #dc2626;
+  display:flex; 
+  justify-content:center ;
+  align-items: center;
+}
 .section-header {
   display: flex;
   justify-content: space-between;

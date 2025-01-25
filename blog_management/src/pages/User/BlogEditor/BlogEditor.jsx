@@ -1,31 +1,45 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import { useParams, useNavigate } from "react-router-dom"; 
 import axios from "axios";
-
+import "../BlogEditor/BlogEditor.css"
 const BlogEditor = () => {
-  const { id } = useParams(); // Extract blog ID from URL
-  const [editableBlog, setEditableBlog] = useState(null); // Initialize editable blog state
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState(null); // To handle errors
-  const [successMessage, setSuccessMessage] = useState(""); // To handle success messages
-  const navigate = useNavigate(); // For redirection after successful submission
-
+  const { id } = useParams(); 
+  const [editableBlog, setEditableBlog] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null); 
+  const [successMessage, setSuccessMessage] = useState(""); 
+  const navigate = useNavigate(); 
   useEffect(() => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
     const fetchBlog = async () => {
       try {
         if (id) {
-          const response = await axios.get(`http://localhost:8000/api/get/${id}/`);
-          setEditableBlog(response.data); // Set the fetched blog data
+          const response = await fetch(`http://localhost:8000/api/get/${id}/`, {
+            method: "GET",
+            headers: {
+              "X-User-Role": user?.role,
+            },
+          });
+          console.log("Response status:", response.status);
+          
+          if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);  // Handles errors like 403, 404, etc.
+          }
+    
+          const data = await response.json();  // Parse JSON data from the response
+          console.log("Blog data:", data);
+          setEditableBlog(data);  // Now we set the actual blog data
         } else {
-          setEditableBlog({}); // Initialize as empty for "Create" mode
+          setEditableBlog({});
         }
       } catch (error) {
         console.error("Error fetching blog:", error);
         setError("Failed to load blog. Please try again later.");
       } finally {
-        setLoading(false); // Stop loading
+        setLoading(false);
       }
     };
+    
 
     fetchBlog();
   }, [id]);
@@ -40,17 +54,16 @@ const BlogEditor = () => {
 
     try {
       const response = id
-      ? await axios.put(`http://localhost:8000/api/update/${id}/`, editableBlog) // Update if `id` exists
+      ? await axios.put(`http://localhost:8000/api/update/${id}/`, editableBlog) 
       : await axios.post(`http://localhost:8000/api/create/`, editableBlog); 
       setSuccessMessage(id ? "Blog updated successfully!" : "Blog created successfully!");
-      setError(null); // Clear previous errors
+      setError(null); 
 
-      // Redirect to the blog page after a successful submit
       navigate(`/blog/${response.data.id}`);
     } catch (error) {
       console.error("Error submitting blog:", error);
       setError("An error occurred while saving the blog. Please try again.");
-      setSuccessMessage(""); // Clear previous success message
+      setSuccessMessage("");
     }
   };
 
@@ -71,7 +84,7 @@ const BlogEditor = () => {
       data: { ...editableBlog, status: "draft" },
     });
   } catch (error) {
-    console.error("Error:", error); // Handle errors here
+    console.error("Error:", error); 
   }
   
   };
@@ -79,8 +92,8 @@ const BlogEditor = () => {
     <div className="write-blog">
       <h2>{id ? "Edit Blog" : "Write New Blog"}</h2>
       
-      {error && <div className="error-message">{error}</div>} {/* Display error */}
-      {successMessage && <div className="success-message">{successMessage}</div>} {/* Display success message */}
+      {error && <div className="error-message">Error:{error}</div>} 
+      {successMessage && <div className="success-message">{successMessage}</div>}
       
       <form className="blog-form" onSubmit={handleSubmit}>
         <div className="form-group">
@@ -88,7 +101,7 @@ const BlogEditor = () => {
           <input
             type="text"
             name="title"
-            value={editableBlog.title || ""}
+            value={editableBlog?.title || ""}
             onChange={handleChange}
             placeholder="Enter blog title"
             required
@@ -98,7 +111,7 @@ const BlogEditor = () => {
           <label>Content</label>
           <textarea
             name="content"
-            value={editableBlog.content || ""}
+            value={editableBlog?.content || ""}
             onChange={handleChange}
             placeholder="Write your blog content here..."
             rows={10}

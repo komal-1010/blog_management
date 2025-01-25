@@ -9,13 +9,12 @@ import './BlogList.css';
 const BlogList = () => {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
-  const [blogs,setBlogs]=useState([])
-  
+  const [blogs, setBlogs] = useState([]);
+
   useEffect(() => {
     const fetchBlog = async () => {
       try {
         const response = await axios.get(`http://localhost:8000/api/read/`);
-        console.log("data", response.data);
         setBlogs(response.data); // Save the data to state
       } catch (error) {
         console.error('Error fetching blog:', error);
@@ -24,6 +23,7 @@ const BlogList = () => {
 
     fetchBlog();
   }, []);
+
   const handleReadMore = (id) => {
     navigate(`/blog/${id}`);
   };
@@ -36,8 +36,9 @@ const BlogList = () => {
         userRole="user"
         activeMenu="blogs"
         onMenuSelect={() => {}}
+        className={isSidebarOpen ? '' : 'closed'} // Toggling the sidebar closed class
       />
-      <div className="main-content">
+      <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : ''}`}> {/* Dynamic margin based on sidebar state */}
         <Header onLogout={() => navigate('/')} userRole="user" />
         <main className="dashboard">
           <BlogGrid blogs={blogs} onReadMore={handleReadMore} />
