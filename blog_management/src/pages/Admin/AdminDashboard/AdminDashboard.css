@@ -79,4 +79,44 @@
   justify-content: flex-end;
   margin-top: 2rem;
 }
+/* Admin Dashboard Layout */
+.app-container {
+  display: flex;
+  height: 100vh;
+  flex-direction: row; /* Align Sidebar and Main Content side by side */
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* Main content takes up the full width after Sidebar */
+  margin-left: 250px; /* Adjust based on Sidebar width */
+  padding-top: 60px; /* Add space for header */
+}
+
+header {
+  position: fixed;
+  z-index: 1;
+  top: -5;
+  left: 100;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 250px; /* Sidebar width */
+  background-color: #f4f4f4;
+  z-index: 5; /* Behind the header */
+}
+
+.dashboard {
+  padding: 20px;
+  margin-top: 20px; /* Add top margin to prevent content overlap with header */
+}
+
+.content-area {
+  margin-top: 60px; /* Make sure content doesn't overlap with fixed header */
+}
 

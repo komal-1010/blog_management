@@ -32,8 +32,8 @@
 
 /* Adjust your header to be fixed */
 .header {
-  top: 0;
-  left: 0;
+  top: -5px;
+  left: 240px;
   right: 0;
   z-index: 10;
   background-color: #fff;
